@@ -35,6 +35,7 @@ class BookSearchActivity : AppCompatActivity() {
 
     val network = BasicNetwork(HurlStack())
 
+    // this request queue might need to change to volley instead and use it in onCreate. but put it here for now to see if it works
     val requestQueue = RequestQueue(cache,network).apply {
         start()
     }
@@ -54,6 +55,7 @@ class BookSearchActivity : AppCompatActivity() {
             setResult(RESULT_OK)
             finish()
         }
+
 
     }
 
