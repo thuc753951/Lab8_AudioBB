@@ -3,6 +3,7 @@ package edu.temple.audiobb
 import java.io.Serializable
 
 class BookList : Serializable{
+
     private val bookList : MutableList<Book> by lazy {
         ArrayList()
     }

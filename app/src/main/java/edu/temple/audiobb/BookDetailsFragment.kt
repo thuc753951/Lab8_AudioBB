@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 
@@ -12,6 +13,7 @@ class BookDetailsFragment : Fragment() {
 
     lateinit var titleTextView: TextView
     lateinit var authorTextView: TextView
+    lateinit var coverImageView: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,6 +23,7 @@ class BookDetailsFragment : Fragment() {
 
         titleTextView = layout.findViewById(R.id.titleTextView)
         authorTextView = layout.findViewById(R.id.authorTextView)
+        coverImageView = layout.findViewById(R.id.coverImageView)
 
         return layout
     }
@@ -32,10 +35,14 @@ class BookDetailsFragment : Fragment() {
             .getSelectedBook().observe(requireActivity(), {updateBook(it)})
     }
 
+
     private fun updateBook(book: Book?) {
         book?.run {
-            titleTextView.text = title
-            authorTextView.text = author
+            titleTextView.text = book.id.toString()//title
+            authorTextView.text = book.coverURL//author
+            coverImageView.setImageResource(book.id)
+            //TODO add image view here and fix the online to get books
+
         }
     }
 }
