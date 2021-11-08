@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import com.squareup.picasso.Picasso
 
 class BookDetailsFragment : Fragment() {
 
@@ -38,10 +39,11 @@ class BookDetailsFragment : Fragment() {
 
     private fun updateBook(book: Book?) {
         book?.run {
-            titleTextView.text = book.id.toString()//title
-            authorTextView.text = book.coverURL//author
-            coverImageView.setImageResource(book.id)
-            //TODO add image view here and fix the online to get books
+            titleTextView.text = title//title
+            authorTextView.text = author//author
+            Picasso.get().load(coverURL).into(coverImageView)
+            //coverImageView.setImageResource(id) // TODO change to url when you can
+
 
         }
     }

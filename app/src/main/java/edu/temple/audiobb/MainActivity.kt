@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Grab test data
+        //TODO Grab online data from search activity
         val bookList = getBookList()
 
         // If we're switching from one container to two containers
@@ -52,21 +52,21 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
 
     }
 
-    private fun getBookList() : BookList {
-        val bookList = BookList()
-        bookList.add(Book(0, "Author 9"))
-        bookList.add(Book(1, "Author 8"))
-        bookList.add(Book(2, "Author 7"))
-        bookList.add(Book(3, "Author 6"))
-        bookList.add(Book(4, "Author 5"))
-        bookList.add(Book(5, "Author 4"))
-        bookList.add(Book(6, "Author 3"))
-        bookList.add(Book(7, "Author 3"))
-        bookList.add(Book(8, "Author 2"))
-        bookList.add(Book(9, "Author 0"))
-
-        return bookList
-    }
+//    private fun getBookList() : BookList {
+//        val bookList = BookList()
+//        bookList.add(Book(0, "Author 9"))
+//        bookList.add(Book(1, "Author 8"))
+//        bookList.add(Book(2, "Author 7"))
+//        bookList.add(Book(3, "Author 6"))
+//        bookList.add(Book(4, "Author 5"))
+//        bookList.add(Book(5, "Author 4"))
+//        bookList.add(Book(6, "Author 3"))
+//        bookList.add(Book(7, "Author 3"))
+//        bookList.add(Book(8, "Author 2"))
+//        bookList.add(Book(9, "Author 0"))
+//
+//        return bookList
+//    }
 
     override fun onBackPressed() {
         // Backpress clears the selected book
