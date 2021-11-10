@@ -1,11 +1,16 @@
 package edu.temple.audiobb
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +20,7 @@ private const val BOOK_LIST = "booklist"
 class BookListFragment : Fragment() {
     private var bookList: BookList? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -22,11 +28,14 @@ class BookListFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.fragment_book_list, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val view = inflater.inflate(R.layout.fragment_book_list, container, false)
+
+
+
+
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,10 +51,15 @@ class BookListFragment : Fragment() {
                 // when the activity is restarted
                 (activity as BookSelectedInterface).bookSelected()
         }
-        with (view as RecyclerView) {
+        // gets the recycler from the container with a button and recycler.
+        val recycler = view.findViewById<RecyclerView>(R.id.Recycler)
+        // assigns it to adapter
+        with (recycler as RecyclerView) {
             layoutManager = LinearLayoutManager(requireActivity())
             adapter = BookListAdapter (bookList!!, onClick)
         }
+
+
     }
 
     companion object {

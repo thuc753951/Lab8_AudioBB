@@ -1,9 +1,11 @@
 package edu.temple.audiobb
 
 import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface {
 
-    lateinit var bookList: BookList
+    var bookList = BookList()
 
     val BookSearchActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         //Log.d("Returned data", it.data?.getStringExtra("resultValue").toString())
@@ -35,6 +37,8 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //var booklist = getBookList()
 
 
         // If we're switching from one container to two containers
@@ -64,6 +68,12 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
             supportFragmentManager.beginTransaction()
                 .add(R.id.container2, BookDetailsFragment())
                 .commit()
+
+        val button = findViewById<Button>(R.id.Searchbutton)
+        button.setOnClickListener {
+            val intent = Intent(this@MainActivity, BookSearchActivity::class.java)
+            BookSearchActivityLauncher.launch(intent)
+        }
 
     }
 

@@ -35,7 +35,6 @@ class BookListAdapter (_bookList: BookList, _onClick: (Book) -> Unit) : Recycler
 
     // Bind the book to the holder along with the values for the views
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
-        //TODO make sure data get placed correctly
         holder.titleTextView.text = bookList[position].title
         holder.authorTextView.text = bookList[position].author
         holder.book = bookList[position]
