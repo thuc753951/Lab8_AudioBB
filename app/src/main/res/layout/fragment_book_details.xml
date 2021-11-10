@@ -8,11 +8,12 @@
 
     <TextView
         android:id="@+id/titleTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
         android:layout_marginTop="84dp"
-        android:textSize="34sp"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Book Title" />

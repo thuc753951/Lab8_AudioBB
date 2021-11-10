@@ -1,6 +1,7 @@
 package edu.temple.audiobb
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -56,11 +58,6 @@ class BookListFragment : Fragment() {
 
 
     }
-    fun setBookList(NewbookList: BookList){
-        bookList = NewbookList
-
-    }
-
 
     companion object {
 

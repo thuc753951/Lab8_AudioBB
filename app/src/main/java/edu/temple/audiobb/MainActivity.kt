@@ -24,17 +24,21 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
             bookList = result.data?.getSerializableExtra("data") as BookList
             Log.d("json", "MAIN-ACTIVITY, 0: "+ bookList.get(0).title) // ssuccesss does go through
             val fragment = supportFragmentManager.findFragmentById(R.id.container1)
-            if(fragment is BookListFragment){
+
+            if(fragment is BookListFragment || fragment is BookDetailsFragment){
                 Log.d("json", "fragment is booklist") // successs does go through
-                fragment.setBookList(bookList)
+//                val bundle = Bundle()
+//                bundle.putSerializable("booklist",bookList)
+//                fragment.arguments = bundle
+
                 supportFragmentManager.beginTransaction()
-                        .detach(fragment)
-                        .attach(fragment)
+                        .replace(R.id.container1, BookListFragment.newInstance(bookList))
                         .commit()
             }
         }
 
     }
+
 
     val isSingleContainer : Boolean by lazy{
         findViewById<View>(R.id.container2) == null
