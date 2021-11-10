@@ -1,5 +1,6 @@
 package edu.temple.audiobb
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,8 +16,10 @@ import com.android.volley.toolbox.*
 import com.squareup.picasso.Picasso
 import org.json.JSONArray
 import org.json.JSONException
+import org.json.JSONObject
+import org.json.JSONTokener
 
-class BookSearchActivity : AppCompatActivity() {
+class BookSearchActivity : Activity() {
 
     // the views init
     val webEditTextView: EditText by lazy {
@@ -32,13 +35,13 @@ class BookSearchActivity : AppCompatActivity() {
     /*val volleyQueue: RequestQueue by lazy {
         Volley.newRequestQueue(this)
     }*/
-    val cache = DiskBasedCache(cacheDir, 1024 * 1024)// 1mb
-
-    val network = BasicNetwork(HurlStack())
+//    val cache = DiskBasedCache(cacheDir, 1024 * 1024)// 1mb
+//
+//    val network = BasicNetwork(HurlStack())
 
     // this request queue might need to change to volley instead and use it in onCreate. but put it here for now to see if it works
-    val requestQueue = RequestQueue(cache,network).apply {
-        start()
+    val VolleyQueue : RequestQueue by lazy {
+        Volley.newRequestQueue(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +52,7 @@ class BookSearchActivity : AppCompatActivity() {
 
 
         webSearch.setOnClickListener {
+
             getData()
         }
 
@@ -63,18 +67,21 @@ class BookSearchActivity : AppCompatActivity() {
     fun getData(){
 
         val url = "https://Kamorris.com/lab/cis3515/search.php?term=" + webEditTextView.text
-
         //val title: String, val author: String, val id: Int, val coverURL: String
-        val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
-                { response -> try {
+        // use jsonArrayReuest instead of object request
+        val jsonObjectRequest = JsonArrayRequest(Request.Method.GET, url, null,
+                { response ->
+                    Log.d("json", "line 73")
                     var bookList = BookList()
-                    val jsonArray = JSONArray(response)
-                    val jsonLength = jsonArray.length()
+                    // response is a json array
+                    //val jsonArray = JSONArray(json)
+                    val jsonLength = response.length()
                     var i = 0
                     while(i < jsonLength){
-                        val jsonObject = jsonArray.getJSONObject(i)
-                        val book = Book(jsonObject.getString("title"), jsonObject.getString("author"), jsonObject.getInt("id"), jsonObject.getString("cover_url"))
+                        val jsobObject = response.getJSONObject(i)
+                        val book = Book(jsobObject.getString("title"), jsobObject.getString("author"), jsobObject.getInt("id"), jsobObject.getString("cover_url"))
                         bookList.add(book)
+                        Log.d("json", i.toString() +": "+ book.title)
                         i++
                     }
                 //send book list by intent back to main activity
@@ -83,14 +90,12 @@ class BookSearchActivity : AppCompatActivity() {
                     setResult(RESULT_OK, mainIntent)
                     finish()
 
-                } catch (e:JSONException){
-                    e.printStackTrace()
-                } },
+                },
                 { error ->
                     Log.e("network", "ERROR: %s".format(error.toString()))
                 }
         )
-        requestQueue.add(jsonObjectRequest)
+        VolleyQueue.add(jsonObjectRequest)
 
     }
 }
