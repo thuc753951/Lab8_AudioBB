@@ -41,8 +41,8 @@ class BookDetailsFragment : Fragment() {
         book?.run {
             titleTextView.text = title//title
             authorTextView.text = author//author
-            Picasso.get().load(coverURL).into(coverImageView)
-            //coverImageView.setImageResource(id) // TODO change to url when you can
+            Picasso.get().load(coverURL).into(coverImageView) // image
+            //coverImageView.setImageResource(id)
 
 
         }

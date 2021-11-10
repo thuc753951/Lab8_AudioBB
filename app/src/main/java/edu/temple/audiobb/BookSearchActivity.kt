@@ -1,5 +1,6 @@
 package edu.temple.audiobb
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -65,24 +66,29 @@ class BookSearchActivity : AppCompatActivity() {
 
         //val title: String, val author: String, val id: Int, val coverURL: String
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
-            Response.Listener { response -> try {
-                val bookList = BookList()
-                val jsonArray = JSONArray(response)
-                val jsonLength = jsonArray.length()
-                var i = 0
-                while(i < jsonLength){
-                    val jsonObject = jsonArray.getJSONObject(i)
-                    val book = Book(jsonObject.getString("title"), jsonObject.getString("author"), jsonObject.getInt("id"), jsonObject.getString("cover_url"))
-                    bookList.add(book)
-                    i++
-                }
+                { response -> try {
+                    var bookList = BookList()
+                    val jsonArray = JSONArray(response)
+                    val jsonLength = jsonArray.length()
+                    var i = 0
+                    while(i < jsonLength){
+                        val jsonObject = jsonArray.getJSONObject(i)
+                        val book = Book(jsonObject.getString("title"), jsonObject.getString("author"), jsonObject.getInt("id"), jsonObject.getString("cover_url"))
+                        bookList.add(book)
+                        i++
+                    }
+                //send book list by intent back to main activity
+                    val mainIntent = Intent(this@BookSearchActivity, MainActivity::class.java)
+                    mainIntent.putExtra("data", bookList)
+                    setResult(RESULT_OK, mainIntent)
+                    finish()
 
-            } catch (e:JSONException){
-                e.printStackTrace()
-            } },
-            Response.ErrorListener { error ->
-                Log.e("network", "ERROR: %s".format(error.toString()))
-            }
+                } catch (e:JSONException){
+                    e.printStackTrace()
+                } },
+                { error ->
+                    Log.e("network", "ERROR: %s".format(error.toString()))
+                }
         )
         requestQueue.add(jsonObjectRequest)
 

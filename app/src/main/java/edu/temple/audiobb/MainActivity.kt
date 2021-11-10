@@ -1,11 +1,28 @@
 package edu.temple.audiobb
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 
+
+
 class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface {
+
+    lateinit var bookList: BookList
+
+    val BookSearchActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        //Log.d("Returned data", it.data?.getStringExtra("resultValue").toString())
+        result->
+        if(result.resultCode == Activity.RESULT_OK){
+            bookList = result.data?.getSerializableExtra("data") as BookList
+            Toast.makeText(this, "${bookList.get(0).title}", Toast.LENGTH_SHORT).show()
+        }
+
+    }
 
     val isSingleContainer : Boolean by lazy{
         findViewById<View>(R.id.container2) == null
@@ -19,8 +36,6 @@ class MainActivity : AppCompatActivity(), BookListFragment.BookSelectedInterface
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //TODO Grab online data from search activity
-        val bookList = getBookList()
 
         // If we're switching from one container to two containers
         // clear BookDetailsFragment from container1
